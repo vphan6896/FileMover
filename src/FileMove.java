@@ -23,7 +23,7 @@ class DragAndDrop extends JFrame {
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		// Create JTextArea
+		// Create JTextArea (Box that shows what's happening
 		jt = new JTextArea();
 		add(jt);
 
@@ -33,7 +33,8 @@ class DragAndDrop extends JFrame {
 	}
 
 	private void enableDragAndDrop() {
-		DropTarget target = new DropTarget(jt, new DropTargetListener() {
+		DropTarget target = new DropTarget(jt, new DropTargetListener()
+		{
 			public void dragEnter(DropTargetDragEvent e) {
 			}
 
@@ -58,15 +59,53 @@ class DragAndDrop extends JFrame {
 
 					// Now get the first file from the list,
 					File srcFile = (File) list.get(0);
-					jt.setText("C:\\Users\\pokec\\Desktop\\");
-					File destDir = new File("C:\\Users\\pokec\\Desktop\\"
-							);
+					
+					JTextField txtInput = new JTextField("");
+					String input = JOptionPane.showInputDialog(
+                            null, "Where to put file? (Root: Desktop)");
+					
+					//Root of directory for operations
+					String root = "C:\\Users\\pokec\\Desktop\\";
+					
+					//find appropriate directory
+					String directory = FindDirectory(input, root);
+					
+					//Show text in main window where file will go
+					jt.setText(directory);
+					
+					File destDir = new File(directory);
+					
 					FileUtils.copyFileToDirectory(srcFile, destDir);
+					jt.append("\n File has been copied.");
 
 				} catch (Exception ex) {
+					jt.setText("Something is wrong.");
+					System.out.println("Something is wrong.");
 				}
 			}
 		});
+	}
+	
+	static public String FindDirectory(String input, String root) {
+		
+		File rootDir = new File("C:\\Users\\pokec\\Desktop\\");
+		
+		File[] directories = GetDirectories(rootDir);
+		
+		return null;
+	}
+	
+	//Filter out all the files and get only directories
+	static public File[] GetDirectories(File rootDir) {
+		File[] directories = rootDir.listFiles();
+		
+		FileFilter fileFilter = new FileFilter() {
+	         public boolean accept(File file) {
+	            return file.isDirectory();
+	         }
+	    };
+	    directories = rootDir.listFiles(fileFilter);
+	    return directories;
 	}
 
 	static public void main(String args[]) {
