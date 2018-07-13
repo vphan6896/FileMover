@@ -4,6 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import org.apache.commons.io.FileUtils;
+//Need to import the commons-io-2.5.jar file if line 6 shows error
 
 import java.awt.datatransfer.*;
 import java.io.*;
@@ -26,9 +27,12 @@ class DragAndDrop extends JFrame {
 		// Create JTextArea (Box that shows what's happening
 		jt = new JTextArea();
 		add(jt);
+		
+		
 
 		enableDragAndDrop();
-
+		jt.setText("Drag and drop a file to this window to begin");
+		
 		setLocationRelativeTo(null);
 	}
 
@@ -39,9 +43,11 @@ class DragAndDrop extends JFrame {
 			}
 
 			public void dragExit(DropTargetEvent e) {
+				jt.setText("Wait, come back :(");
 			}
 
 			public void dragOver(DropTargetDragEvent e) {
+				jt.setText("Let go of the file please :)");
 			}
 
 			public void dropActionChanged(DropTargetDragEvent e) {
@@ -66,12 +72,13 @@ class DragAndDrop extends JFrame {
 					
 					//Root of directory for operations
 					String root = "C:\\Users\\pokec\\Desktop\\";
+					File rootDir = new File("C:\\Users\\pokec\\Desktop\\");
 					
 					//find appropriate directory
-					String directory = FindDirectory(input, root);
+					String directory = FindDirectory(input, rootDir);
 					
 					//Show text in main window where file will go
-					jt.setText(directory);
+					jt.setText("So we will be copying to " + directory);
 					
 					File destDir = new File(directory);
 					
@@ -86,11 +93,27 @@ class DragAndDrop extends JFrame {
 		});
 	}
 	
-	static public String FindDirectory(String input, String root) {
-		
-		File rootDir = new File("C:\\Users\\pokec\\Desktop\\");
+	static public String FindDirectory(String input, File rootDir) {
 		
 		File[] directories = GetDirectories(rootDir);
+		
+		int amtDir = directories.length;
+		
+		//traverse the directories in the current directory
+		//and see if it's what we're looking for
+		for (int index = 0; index < amtDir; index++)
+		{
+			if(directories[index].getName().equals(input))
+			{
+				return directories[index].getAbsolutePath();
+			}
+		}
+		
+		//Now we dive into each directory
+		for (int dirTries = 0; dirTries < amtDir; dirTries++)
+		{
+			FindDirectory(input, directories[dirTries]);
+		}
 		
 		return null;
 	}
