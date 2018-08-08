@@ -24,7 +24,7 @@ class DragAndDrop extends JFrame {
 		setLayout(new BorderLayout());
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		// Create JTextArea (Box that shows what's happening
+		// Create JTextArea (Box that shows what's happening)
 		jt = new JTextArea();
 		add(jt);
 		
@@ -84,6 +84,7 @@ class DragAndDrop extends JFrame {
 					
 					FileUtils.copyFileToDirectory(srcFile, destDir);
 					jt.append("\n File has been copied.");
+					jt.append("\n You can continue addition operations now. ");
 
 				} catch (Exception ex) {
 					jt.setText("Something is wrong.");
@@ -96,13 +97,14 @@ class DragAndDrop extends JFrame {
 	static public String FindDirectory(String input, File rootDir) {
 		
 		File[] directories = GetDirectories(rootDir);
-		
+		String target = rootDir.getAbsolutePath();
 		int amtDir = directories.length;
 		
 		//traverse the directories in the current directory
 		//and see if it's what we're looking for
 		for (int index = 0; index < amtDir; index++)
 		{
+			String name = directories[index].getName();
 			if(directories[index].getName().equals(input))
 			{
 				return directories[index].getAbsolutePath();
@@ -112,10 +114,15 @@ class DragAndDrop extends JFrame {
 		//Now we dive into each directory
 		for (int dirTries = 0; dirTries < amtDir; dirTries++)
 		{
-			FindDirectory(input, directories[dirTries]);
+			target = FindDirectory(input, directories[dirTries]);
+			File fileTarget = new File(target);
+			if (fileTarget.getName().equals(input))
+			{
+				return target;
+			}
 		}
 		
-		return null;
+		return target;
 	}
 	
 	//Filter out all the files and get only directories
