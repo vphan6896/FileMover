@@ -4,15 +4,15 @@ This was built with a file organization structured with folders and subfolders f
 reside in.
 For example:
 Documents\
-  Personal\
-    Insurance\
-    Leasing Agreements\
-  School\
-    UT_Fall_2016\
-      ARC_308\
-      CS_314\
-    UT_Spr_2017\
-      ...\
+&nbsp;  Personal\
+&nbsp;&nbsp;    Insurance\
+&nbsp;&nbsp;    Leasing Agreements\
+&nbsp;  School\
+&nbsp;&nbsp;    UT_Fall_2016\
+&nbsp;&nbsp;&nbsp;      ARC_308\
+&nbsp;&nbsp;&nbsp;      CS_314\
+&nbsp;&nbsp;    UT_Spr_2017\
+&nbsp;&nbsp;      ...\
       
 It definitely helps to have a unique naming structure to use this app. Future improvements to consider would be the full capability to handle partial names
 and a folder creation function with templates. I mainly used this during college as I organized my classwork, so its main function was sufficient for me as
